@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Results</h1>
+
+    <table class="rows">
+      <tr>
+        <td><div id="chart_div"></div></td>
+
+      </tr>
+        <tr>
+        <td><div id="B_chart_div"></div></td>
+        </tr>
+    </table>
+</div>
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+  google.load('visualization', '1', {'packages':['corechart']});
+  function initialize() {
+        var opts = {sendMethod: 'auto'};
+        // Replace the data source URL on next line with your data source URL.
+        var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/1EiiZVztDUcPwIqSrHPWJgUHJXCKpyC1syWI2Ku2k5kE/edit?usp=sharing', opts);
+        -
+        // Optional request to return only column C and the sum of column B, grouped by C members.
+        //query.setQuery('select C, sum(B) group by C');
+
+        // Send the query with a callback function.
+        query.send(handleQueryResponse);
+}
+
+function handleQueryResponse(response) {
+      if (response.isError()) {
+        alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+        return;
+      }
+
+    var data = response.getDataTable();
+
+  var options = {
+    title: 'Average number of emoticons in tweet with specified hashtag',
+      legend: 'none',
+      vAxis: { title: 'Average number of emoticons per tweet' },
+      width: $(window).width(),
+      height: $(window).height() * 0.3
+  };
+
+  var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+
+  chart.draw(data, options);
+
+    }
+  function initialize2() {
+        var opts = {sendMethod: 'auto'};
+        // Replace the data source URL on next line with your data source URL.
+        var query2= new google.visualization.Query('https://docs.google.com/spreadsheets/d/1_cuoQjxdQWyqC2HMVVPrbpW2wTrwDqidGlzIe93IQlk/edit?usp=sharing', opts);
+        -
+        // Optional request to return only column C and the sum of column B, grouped by C members.
+        //query.setQuery('select C, sum(B) group by C');
+
+        // Send the query with a callback function.
+        query2.send(handleQueryResponse2);
+}
+
+function handleQueryResponse2(response) {
+      if (response.isError()) {
+        alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+        return;
+      }
+
+    var data2 = response.getDataTable();
+
+  var options2 = {
+      title: 'Hashtag popularity (Tue Apr/04/2017 8AM)',
+      legend: 'none',
+      vAxis: {
+          title: 'hashtag',
+          minvalue: 0
+      },
+      hAxis: {title: 'number of posts per 60sec'},
+      width: $(window).width(),
+      height: $(window).height() * 0.3
+  }
+
+  var chart2 = new google.visualization.BarChart(document.getElementById('B_chart_div'));
+
+   chart2.draw(data2, options2);
+
+
+}
+
+      google.setOnLoadCallback(initialize);
+      google.setOnLoadCallback(initialize2);
+
+
+
+
+
+
+  </script>
+
+
+{% endblock %}

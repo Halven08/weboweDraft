@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Results</h1>
+
+    <table class="rows">
+      <tr>
+        <td><div id="chart_div"></div></td>
+
+      </tr>
+         <tr>
+        <td><div id="B_chart_div"></div></td>
+
+      </tr>
+
+        <tr>
+
+            <td><div id="table_div"></div></td>
+        </tr>
+
+    </table>
+</div>
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+  google.load('visualization', '1', {'packages':['corechart', 'table']});
+  function initialize() {
+        var opts = {sendMethod: 'auto'};
+        // Replace the data source URL on next line with your data source URL.
+        var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/1EiiZVztDUcPwIqSrHPWJgUHJXCKpyC1syWI2Ku2k5kE/edit?usp=sharing', opts);
+        -
+        // Optional request to return only column C and the sum of column B, grouped by C members.
+        //query.setQuery('select C, sum(B) group by C');
+
+        // Send the query with a callback function.
+        query.send(handleQueryResponse);
+}
+
+function handleQueryResponse(response) {
+      if (response.isError()) {
+        alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+        return;
+      }
+
+    var data = response.getDataTable();
+
+  var options = {
+    title: 'Average number of emoticons in tweet with specified keyword',
+      legend: 'none',
+      vAxis: { title: 'Average number of emoticons per 1000 tweets' },
+      width: $(window).width()*0.9,
+      height: $(window).height() * 0.3
+  };
+
+  var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+
+  chart.draw(data, options);
+
+    }
+  function initialize2() {
+        var opts = {sendMethod: 'auto'};
+        // Replace the data source URL on next line with your data source URL.
+        var query2= new google.visualization.Query('https://docs.google.com/spreadsheets/d/1luQkxu0TkkLJtjrD8Lf-uuGzRAFUn16D4_eZkk_H7X0/edit?usp=sharing', opts);
+        -
+        // Optional request to return only column C and the sum of column B, grouped by C members.
+        //query.setQuery('select C, sum(B) group by C');
+
+        // Send the query with a callback function.
+        query2.send(handleQueryResponse2);
+}
+
+function handleQueryResponse2(response) {
+      if (response.isError()) {
+        alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+        return;
+      }
+
+    var data2 = response.getDataTable();
+
+  var options2 = {
+      title: 'Keyword popularity (Tue Apr/04/2017 8AM)',
+      legend: 'none',
+      vAxis: {
+          title: 'keyword',
+          minvalue: 0
+      },
+      hAxis: {title: 'number of posts per 60sec'},
+      width: $(window).width()*0.9,
+      height: $(window).height() * 0.5
+  }
+
+  var chart2 = new google.visualization.BarChart(document.getElementById('B_chart_div'));
+
+   chart2.draw(data2, options2);
+
+
+}
+ function initialize3() {
+        var opts = {sendMethod: 'auto'};
+        // Replace the data source URL on next line with your data source URL.
+        var query3= new google.visualization.Query('https://docs.google.com/spreadsheets/d/1e6vrOmfzvTsuYhb8upR8vQFTieTyN3vSZIJdq6As_qA/edit#gid=0', opts);
+        -
+        // Optional request to return only column C and the sum of column B, grouped by C members.
+        //query.setQuery('select C, sum(B) group by C');
+
+        // Send the query with a callback function.
+        query3.send(handleQueryResponse3);
+}
+
+function handleQueryResponse3(response) {
+      if (response.isError()) {
+        alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+        return;
+      }
+
+    var data3 = response.getDataTable();
+
+  var options3 = {
+      title: 'table title',
+      width: $(window).width()*0.9,
+      height: $(window).height() * 0.5
+  }
+
+  var table = new google.visualization.Table(document.getElementById('table_div'));
+
+   table.draw(data3, options3);
+
+
+}
+
+      google.setOnLoadCallback(initialize);
+      google.setOnLoadCallback(initialize2);
+       google.setOnLoadCallback(initialize3);
+
+
+  </script>
+<div>
+    <h1>Results summary</h1>
+    <ul>
+        <li>Najwięcej emotikonów jak i hashtagów znajduje się w postach na temat ISIS (72 emotki/100 tweetów oraz 96 tagów/100 tweetów), natomiast najmniej w tych zawierających słowo „merkel” (4 emotki/100 tweetów) oraz „car” (17 tagów/100 tweetów)</li>
+        <li>Konta założone najwcześniej (2007 rok) posiadały osoby piszące o Trumpie</li>
+        <li>Średnio najkrótsze tweety były o Edzie Sheeranie (95 znaków), zaś najdłuższe o ISIS (120 znaków)</li>
+        <li>Najwięcej followersów (20900) i statusów (77000) miały osoby piszące o Brexicie, a przyjaciół (4300) – piszące o Merkel
+        <li>Jeśli analizujemy wszystkie słowa kluczowe naraz, to korelacje pomiędzy poszczególnymi zmiennymi plasują się na niskim poziomie, w związku z czym dokonano podziału według analizowanych słów kluczowych, co pozwoliło otrzymać następujące wyniki:
+            <ul>
+                <li>w przypadku słów „car” i „isis” istnieje silna dodatnia korelacja między liczbą przyjaciół a liczbą followersów, dla słowa „putin” jest ona umiarkowana</li>
+                <li>w przypadku słowa „edsheeran” istnieje umiarkowana ujemna korelacja między liczbą słów tweeta a datą założenia konta oraz umiarkowana dodatnia korelacja między liczbą hashtagów zawartych w tweecie a datą założenia konta</li>
+                <li>w przypadku słowa „isis” istnieje ujemna umiarkowana korelacja między liczbą hashtagów w poście a liczbą słów tweeta</li>
+                <li>w przypadku słowa „merkel” istnieje umiarkowana ujemna korelacja między długością postu a liczbą przyjaciół użytkownika</li>
+            </ul>
+        </li>
+        <li>Wyniki PCA (analizy głównych składowych)
+            <ul>
+                <li>najwięcej zmienności wnoszą: number of words i length of a tweet oraz number of statuses, followers i friends</li>
+                <li>nie widać niestety żeby utworzyły się jakieś podgrupy (możliwe, że mamy zbyt mało danych)</li>
+            </ul>
+        </li>
+    </ul>
+</div>
+{% endblock %}
+
